@@ -4,11 +4,13 @@
 # 
 ######################
 
-import random, string, re
+import random, string, re, json, hashlib
 
 def main():
     pwd = generate_password()
+    print(pwd)
     print(check_user_password(pwd))
+    encrypt_and_dump(pwd)
 
 
 def generate_password(length=24):
@@ -40,6 +42,19 @@ def check_user_password(password):
 
     # If all conditions are met, return True
     return True
+
+def encrypt_and_dump(password): 
+
+    salt = "nerdz"
+
+    Encryptpassword = password+salt
+
+    hashed = hashlib.md5(Encryptpassword.encode())
+
+    print(hashed.hexdigest())
+
+    with open("passes.json", "w") as write_file:
+        json.dump(hashed.hexdigest(), write_file)
 
 
 main()
